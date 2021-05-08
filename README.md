@@ -13,18 +13,18 @@
 4. tshell's blog(install ROS2) : https://tshell.hatenablog.com/entry/2021/03/07/224537
 
 # Requirements
-*Raspberry Pi Mouse(Raspimouse)
+* Raspberry Pi Mouse(Raspimouse)
   - https://rt-net.jp/products/raspberrypimousev3/
   - RT Robot Shop
   - 私はRaspimouse V2 を使いました。
-*Linux for RaspberryPie3
+* Linux for RaspberryPie3
   - ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xz
   - https://ubuntu.com/download/raspberry-pi
-*Device Driver
+* Device Driver
   - https://github.com/rt-net/RaspberryPiMouse
-*ROS2
+* ROS2
   - https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html
-*Windows10 
+* Windows10 
   - version : 20H2
   - Docker Desktop
   - Visual Studio Code(Docker extentionをインストールしておくこと)
