@@ -251,3 +251,60 @@ $ sudo crontab crontab.conf
      ├setup.bash
      └crontab.conf
 ```
+これで、再起動すると自動でデバイスドライバが読み込まれ、ピッという音が鳴り、光センサが一度光ります。その後ログインできるようになります。
+
+# ROS2 foxyのインストール
+ROS公式HPに記載があります。<br>
+URL : https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html<br>
+ROS2のパッケージはDesktopとBaseを選べます。ここではbaseを選びます。上記URLに「Try some examples」という項目があるのですが、これをやるにはDesktopを選ばないとできません。<br>
+実行は以下のコマンドになります。
+```
+$ sudo apt update && sudo apt install curl gnupg2 lsb-release
+$ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+$ sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
+
+$ sudo apt install ros-foxy-ros-base
+
+$ sudo apt install python3-colcon-common-extensions
+$ sudo apt install -y python3-pip
+$ pip3 install -U argcomplete
+```
+ROS2がインストールされたか反応を見るにはヘルプを呼び出します。ヘルプが表示されればインストールされています（と思います）。
+```
+$ source /opt/ros/foxy/setup.bash
+$ ros2 --help
+usage: ros2 [-h] Call `ros2 <command> -h` for more detailed usage. ...
+
+ros2 is an extensible command-line tool for ROS 2.
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+Commands:
+  action     Various action related sub-commands
+  bag        Various rosbag related sub-commands
+  component  Various component related sub-commands
+  daemon     Various daemon related sub-commands
+  doctor     Check ROS setup and other potential issues
+  interface  Show information about ROS interfaces
+  launch     Run a launch file
+  lifecycle  Various lifecycle related sub-commands
+  multicast  Various multicast related sub-commands
+  node       Various node related sub-commands
+  param      Various param related sub-commands
+  pkg        Various package related sub-commands
+  run        Run a package specific executable
+  security   Various security related sub-commands
+  service    Various service related sub-commands
+  topic      Various topic related sub-commands
+  wtf        Use `wtf` as alias to `doctor`
+
+  Call `ros2 <command> -h` for more detailed usage.
+```
+# RaspimouseをROS2で動かすためにraspimouse2パッケージをビルドする
+RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ただ、はっきりと書かれていませんが、tshellさんの方法はx86マシンもLinux(Ubuntu)であることから、ここではWindow10でやれるようにさらに工夫します。
+
+
+
+それでは、raspimouse2を使うためにビルドをします。
+
