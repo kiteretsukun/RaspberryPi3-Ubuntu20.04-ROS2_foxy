@@ -303,9 +303,29 @@ Commands:
   Call `ros2 <command> -h` for more detailed usage.
 ```
 # RaspimouseをROS2で動かすためにraspimouse2パッケージをビルドする
-RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ここではWindow10でビルドできるようにかなり具体的に記載します。
+RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ここではWindow10でビルドできるようにかなり具体的に記載します。<br>
+
+raspimouse2のビルドの仕方は、以下の通り。
+1. RaspberryPi用のUbuntuのARMイメージファイルをx86でも動くように、qemu-user-staticというモジュールを利用して、ARM用のバイナリをx86命令へ変換しながら実行する仕掛けをする。
+2. x86で動くARM用イメージファイルをWindows10のDockerへインポートして、ARM用UbuntuをWindows10のDockerでコンテナとして立ち上げる。
+3. そのコンテナを使ってWSL2上に展開したraspimouse2のソースを含むフォルダをホームディレクトリとしてマウントした状態で別のコンテナを立ち上げる。追加で立ち上げたコンテナはROS2がインストールされている状態かつUbuntuであるようにDockerfileを作る。
+4. 追加で立ち上げたコンテナでraspimouse2をビルドする。
+5. ビルドされたものをRaspimouseへ移植する。
 
 ## WSL2 ubuntu:20.04
+RaspberryPiで動かすUbuntuのイメージファイル(ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xz)は、Windows10のダウンロードフォルダにあるものとします。<br>
+C:/Users/username/Downloads<br>
+そのうえで、WSL2のUbuntu 20.04を立ち上げて以下を実行します。
+```
+$ cd
+$ sudo losetup -fP /mnt/c/Users/Ryotaro/Downloads/ubuntu-20.04.2-preinstalled-server-arm64+raspi.img
+$ mesg | grep loop
+$ sudo fdisk -l /dev/loop2
+$ mount /dev/loop2p2 /mnt
+```
+mesg | grep loop　でループバックデバイスがどこに作られたかわかります。私の環境では/dev/loop2でした。<br>
+sudo fdisk -l /dev/loop2を行うことで、Linuxパーティションが/dev/loop20p2ということがわかります。
+
 ## VSC (Visual Studio Code)
 ## Powershell
 ## Windows10
