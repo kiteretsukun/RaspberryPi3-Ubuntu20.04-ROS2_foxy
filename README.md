@@ -35,6 +35,7 @@
   - version : 20H2
   - Docker Desktop
   - Visual Studio Code(Docker extentionをインストールしておくこと)
+  - Powershell
   - Etcher(https://www.balena.io/etcher/) : microSDにUbuntuイメージを書き込むソフト
 
 # RapsberryPie3 に Ubuntu 20.04 をインストールする
@@ -42,10 +43,20 @@ Ubuntu.comからRaspberryPieのArm64bitに対応したイメージがダウン�
 2021.05.08時点ではUbuntu Server 20.04.2 LTSが選べました。LTSというタイプを選ぶのが良いそうです。このあたりはLinux系の詳しい情報を調べてください。
 ダウンロードしたイメージをEtcherというソフトを使ってイメージを書き込みます。
 書き込みが終わったら、microSDカードをRaspberryPieに差し込んで起動させます。
+  - 立ち上げる前にUSBキーボード、有線LAN、モニター(HDMI)を接続しておいてください。立ち上げて、後から接続しても検知されないので、その場合は電源を無理やり切りましょう。本当は良くないのですが、大丈夫です。
+  - RaspberryPie本体は、まだRaspimouseに搭載しなくても良いですが、デバイスドライバーをビルドする時点では搭載した方が良いです。
 
-RaspberryPie本体は、まだRaspimouseに搭載しなくても良いですが、デバイスドライバーをビルドする時点では搭載した方が良いです。
+# Windows10からRasberryPieのUbuntuへSSH接続するための準備
+Ubuntuが立ち上がったRaspberryPieで作業します。
+まず、RaspberryPieのIPアドレスを調べます。IPアドレスはサンプルです。
+'''
+$ ip addr show eth0
+3: eth0: ...
+   inet 192.168.1.9/24 ...
+'''
+
 
 # デバイスドライバーのインストール
-
+Ubuntuが立ち上がったRaspberryPieで作業します。
 
 
