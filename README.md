@@ -14,7 +14,38 @@
 
 ## raspimouse2のビルドが面倒だという方へ
 このGitページに保管している rsp.tar がビルド済みのraspimouse2になります。<br>
-こちらを展開すればすぐに使えます。（Linux初心者のため環境が変わると使えるかわかりません。）
+こちらを展開すればすぐに使えます。（Linux初心者のため環境が変わると使えるかわかりません。）下記Requirementsと同じ仕様ならOKだと思います。<br>
+
+rsp.tarの中身はフォルダで構成されていて、<br><br>
+```
+rsp.tar
+ ├ build
+ ├ install
+ ├ log
+ └ src
+```
+になっています。<br><br>
+
+これらのフォルダの配置は
+```
+/
+ └home
+  └ubuntu
+   └ros2_ws
+     ├ build
+     ├ install
+     ├ log
+     └ src
+```
+となるようにします。<br><br>
+
+そのため、rsp.tarを/home/ubutu/ros2_wsに置いて、ターミナル上の自分の位置も同じ/home/ubutu/ros2_wsに移動しておいて
+```
+$ tar xvf rsp.tar
+```
+とやれば、上記フォルダ配置になります。<br><br>
+あとはROS2とraspimouse2を使うだけになります。<br>
+詳しくはこの記事を読んでください。
 
 # Requirements
 * Raspberry Pi Mouse(Raspimouse)
@@ -37,6 +68,7 @@
   - Visual Studio Code(Docker extentionをインストールしておくこと)
   - Powershell
   - Etcher(https://www.balena.io/etcher/) : microSDにUbuntuイメージを書き込むソフト
+  - WinSCP(FTPツール) : https://ja.osdn.net/projects/winscp/
 
 # RapsberryPie3 に Ubuntu 20.04 をインストールする
 Ubuntu.comからRaspberryPieのArm64bitに対応したイメージがダウンロードできるので、ダウンロードしてください。<br>
@@ -68,6 +100,7 @@ passwd: password updated successfully
 ```
 
 # Windows10からRasberryPieのUbuntuへSSH接続するための準備
+SSH接続は、暗号化された状態でサーバー間やPC間を通信する方式です。<br>
 Ubuntuが立ち上がったRaspberryPieで作業します。<br>
 まず、RaspberryPieのIPアドレスを調べます。IPアドレスはサンプルです。
 ```
@@ -75,10 +108,35 @@ $ ip addr show eth0
 3: eth0: ...
    inet 192.168.1.9/24 ...
 ```
-次にSSHの準備です。
+次にSSHの準備です。IPアドレスはご自身のアドレスに読み替えてください。
+```
+$ ssh ubuntu@192.168.1.9
+(略)
+Are you sure you want to conotinue connecting (yes/no)?
+```
+となるので、
+```
+Are you sure you want to conotinue connecting (yes/no)? yes
+```
+として、Enterを押してください。<br>
+これでWindows10からSSH接続できます。<br><br>
+
+Windows10からはPowershellでアクセスします。Usernameの部分はご自身の環境に読み替えてください。
+```
+PS C:\Users\Username>
+```
+SSH接続するには
+```
+PS C:\Users\Username>ssh ubuntu@192.168.1.9
+ubuntu@192.168.1.9's password:yourpassword
+(略)
+ubuntu@ubuntu:~$
+```
+でアクセスできます。
 
 
 # デバイスドライバーのインストール
-Ubuntuが立ち上がったRaspberryPieで作業します。
+Ubuntuが立ち上がったRaspberryPieで作業します。<br>
+
 
 
