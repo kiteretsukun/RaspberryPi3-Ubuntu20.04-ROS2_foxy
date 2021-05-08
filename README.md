@@ -12,11 +12,18 @@
 3. tshell's blog(build raspimouse2) : https://tshell.hatenablog.com/entry/2021/03/08/222557
 4. tshell's blog(install ROS2) : https://tshell.hatenablog.com/entry/2021/03/07/224537
 
+## raspimouse2のビルドが面倒だという方へ
+このGitページに保管している rsp.tar がビルド済みのraspimouse2になります。
+こちらを展開すればすぐに使えます。（Linux初心者のため環境が変わると使えるかわかりません。）
+
 # Requirements
 * Raspberry Pi Mouse(Raspimouse)
   - https://rt-net.jp/products/raspberrypimousev3/
   - RT Robot Shop
   - 私はRaspimouse V2 を使いました。
+* RaspberryPie
+  - Raspiemouseのバージョンに合わせて、準備してください。V2の場合はRaspberryPie3、V3の場合はRaspberryPie4。
+  - microSD : 16GB 以上が良いと思います。
 * Linux for RaspberryPie3
   - ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xz
   - https://ubuntu.com/download/raspberry-pi
@@ -28,6 +35,17 @@
   - version : 20H2
   - Docker Desktop
   - Visual Studio Code(Docker extentionをインストールしておくこと)
+  - Etcher(https://www.balena.io/etcher/) : microSDにUbuntuイメージを書き込むソフト
 
 # RapsberryPie3 に Ubuntu 20.04 をインストールする
+Ubuntu.comからRaspberryPieのArm64bitに対応したイメージがダウンロードできるので、ダウンロードしてください。
+2021.05.08時点ではUbuntu Server 20.04.2 LTSが選べました。LTSというタイプを選ぶのが良いそうです。このあたりはLinux系の詳しい情報を調べてください。
+ダウンロードしたイメージをEtcherというソフトを使ってイメージを書き込みます。
+書き込みが終わったら、microSDカードをRaspberryPieに差し込んで起動させます。
+
+RaspberryPie本体は、まだRaspimouseに搭載しなくても良いですが、デバイスドライバーをビルドする時点では搭載した方が良いです。
+
+# デバイスドライバーのインストール
+
+
 
