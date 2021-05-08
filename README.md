@@ -45,15 +45,27 @@ Ubuntu.comからRaspberryPieのArm64bitに対応したイメージがダウン�
 書き込みが終わったら、microSDカードをRaspberryPieに差し込んで起動させます。
   - 立ち上げる前にUSBキーボード、有線LAN、モニター(HDMI)を接続しておいてください。立ち上げて、後から接続しても検知されないので、その場合は電源を無理やり切りましょう。本当は良くないのですが、大丈夫です。
   - RaspberryPie本体は、まだRaspimouseに搭載しなくても良いですが、デバイスドライバーをビルドする時点では搭載した方が良いです。
+ 
+ubuntu server の場合、最初はlogin idもパスワードも「ubuntu」なので、それでログインしてください。
+このままではまずいので、パスワード変更します。パスワードはご自身で決めてください。
+```
+$ passwd
+Changing password for pi.
+Current password: 
+New password: 
+Retype new password: 
+passwd: password updated successfully
+```
 
 # Windows10からRasberryPieのUbuntuへSSH接続するための準備
 Ubuntuが立ち上がったRaspberryPieで作業します。
 まず、RaspberryPieのIPアドレスを調べます。IPアドレスはサンプルです。
-'''
+```
 $ ip addr show eth0
 3: eth0: ...
    inet 192.168.1.9/24 ...
-'''
+```
+次にSSHの準備です。
 
 
 # デバイスドライバーのインストール
