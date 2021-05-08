@@ -65,6 +65,7 @@ $ tar xvf rsp.tar
   - https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html
 * Windows10 
   - version : 20H2
+  - WSL2 : Ubuntu 20.04
   - Docker Desktop
   - Visual Studio Code(Docker extentionをインストールしておくこと)
   - Powershell
@@ -302,9 +303,19 @@ Commands:
   Call `ros2 <command> -h` for more detailed usage.
 ```
 # RaspimouseをROS2で動かすためにraspimouse2パッケージをビルドする
-RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ただ、はっきりと書かれていませんが、tshellさんの方法はx86マシンもLinux(Ubuntu)であることから、ここではWindow10でやれるようにさらに工夫します。
+RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ただ、はっきりと書かれていませんが、tshellさんの方法はx86マシンもLinux(Ubuntu)であることから、ここではWindow10でビルドできるようにさらに工夫します。
 
+## WSL2 ubuntu:20.04
+## VSC (Visual Studio Code)
+## Powershell
+## Windows10
+## WSL2 ubuntu:20.04
+## VSC
+## VSC
+## WSL2 ubuntu:20.04
+## Windows10
+## Raspimouse
+## Raspimouseで動作確認
 
-
-それでは、raspimouse2を使うためにビルドをします。
+# Raspimouseのネットワーク(特にWifi)設定
 
