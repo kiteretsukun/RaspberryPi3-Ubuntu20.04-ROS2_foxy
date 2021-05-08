@@ -303,7 +303,7 @@ Commands:
   Call `ros2 <command> -h` for more detailed usage.
 ```
 # RaspimouseをROS2で動かすためにraspimouse2パッケージをビルドする
-RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ただ、はっきりと書かれていませんが、tshellさんの方法はx86マシンもLinux(Ubuntu)であることから、ここではWindow10でビルドできるようにさらに工夫します。
+RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ここではWindow10でビルドできるようにかなり具体的に記載します。
 
 ## WSL2 ubuntu:20.04
 ## VSC (Visual Studio Code)
