@@ -304,10 +304,10 @@ Commands:
   Call `ros2 <command> -h` for more detailed usage.
 ```
 # RaspberryPi のmicroSDカードの情報を取り出してイメージファイルを作る
-ここではRaspberryPiにインストールしてきた、Ubuntu20.04+デバイスドライバ+ROS2 foxyという状態を取り出してイメージファイルにします。これはRaspberryPiのバックアップの手法にもなります。注意点はSDカードの容量丸ごとコピーすることになるので、ファイルが大きくなります。また、SDカードにエラーが出てそのセクタが禁止になると容量が異なってインストールできなくなるそうです。バックアップファイルを小さく作る方法があるので、バックアップを作りたいときは別途調べてみてください。今は、短期間でセクタエラーが出ないもの、として進めます。
+ここではRaspberryPiにインストールしてきた、Ubuntu20.04+デバイスドライバ+ROS2 foxyという状態を取り出してイメージファイルにします。これはRaspberryPiのバックアップの手法にもなります。注意点はSDカードの容量丸ごとコピーすることになるので、ファイルが大きくなります。また、SDカードにエラーが出てそのセクタが禁止になると容量が異なってインストールできなくなるそうです。バックアップファイルを小さく作る方法があるので、バックアップを作りたいときは別途調べてみてください。今は、短期間でセクタエラーが出ないもの、として進めます。<br><br>
 　イメージファイル作成方法(taneyatsさんBlog) : https://raspi.taneyats.com/entry/backup-sdcard
 　Raspberry Piを極限まで無駄なくバックアップする方法(DevelopersIO) :　https://dev.classmethod.jp/articles/raspberry-pi-dump-and-restore/
-<br>
+<br><br>
 ここで作ったイメージファイルはWSL2の/homeにコピーしておきます。(場所がわかるならどこでも良いですが。後々使うので場所は把握しておいてください)<br>
 私の場合は、<br>
 /home/raspi-ubuntu-20.04.tar<br>
