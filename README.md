@@ -339,13 +339,22 @@ Device       Boot  Start     End Sectors  Size Id Type
 /dev/loop0p2      526336 6366175 5839840  2.8G 83 Linux
 ```
 sudo fdisk -l /dev/loop0を行うことで、Linuxパーティションが/dev/loop0p2ということがわかります。この情報を次で使います。
+```
+$ sudo mount /dev/loop0p2 /mnt
+```
+後で/dev/loop0p2へqemu-user-staticというモジュールの一部をコピーするために、先にWSL2から/dev/loop0p2をマウントしておく。<br>
+ちなみに、マウントした先を覗いてみると
+```
+$ ls /mnt
+bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var
+```
+これはUbuntuのイメージファイルの中身が見えています。イメージファイルをマウントしたので、このようになります。
 
 ## VSC (Visual Studio Code)
 次はARM64用のUbuntuイメージをx86でも動くようにする改造をします。WSL2でやっても良いのですが、この作業は一度行うだけなのでWSL2を汚すよりは、Dockerで作業してコンテナを捨てしまう方が、すっきりと作業が出来ます。なので、Dockerコンテナを立ち上げていきます。<br>
 前提条件としては、Windows10のダウンロードフォルダにUbuntuイメージが展開されている状態です。
 ```
 $ docker run -it -v C:/Users/Username/Downloads:/img --name ubuntu ubuntu:20.04
-$ mount /dev/loop0p2 /mnt
 ```
 
 
