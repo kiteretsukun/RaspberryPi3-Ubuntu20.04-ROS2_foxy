@@ -309,7 +309,7 @@ Commands:
 イメージファイル作成方法(taneyatsさんBlog):https://raspi.taneyats.com/entry/backup-sdcard<br>
 Raspberry Piを極限まで無駄なくバックアップする方法(DevelopersIO):https://dev.classmethod.jp/articles/raspberry-pi-dump-and-restore/<br><br>
 
-ここで作ったイメージファイルはWSL2の/homeにコピーしておきます。(場所がわかるならどこでも良いですが。後々使うので場所は把握しておいてください)<br><br>
+ここで作ったイメージファイルはWSL2側のフォルダ(\\wsl$\Ubuntu-20.04\home\以下)にコピーしておきます。(場所がわかるならどこでも良いですが。後々使うので場所は把握しておいてください)<br><br>
 私の場合は、<br>
 \\wsl$\Ubuntu-20.04\home\raspi-ubuntu-20.04.tar<br>
 と置きました。この形で後々利用していきます。
