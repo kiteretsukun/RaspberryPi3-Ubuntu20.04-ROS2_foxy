@@ -350,17 +350,63 @@ bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sb
 ```
 これはUbuntuのイメージファイルの中身が見えています。イメージファイルをマウントしたので、このようになります。
 
-## VSC (Visual Studio Code)
+## VSC (Visual Studio Code)＋Docker
 次はARM64用のUbuntuイメージをx86でも動くようにする改造をします。WSL2でやっても良いのですが、この作業は一度行うだけなのでWSL2を汚すよりは、Dockerで作業してコンテナを捨てしまう方が、すっきりと作業が出来ます。なので、Dockerコンテナを立ち上げていきます。<br>
 前提条件としては、Windows10のダウンロードフォルダにUbuntuイメージが展開されている状態です。
 ```
 $ docker run -it -v C:/Users/Username/Downloads:/img --name ubuntu ubuntu:20.04
+root@a67cf51b1d6d:/# 
 ```
+ここでDockerコンテナ側のコンソールに切り替わります。「root@a67cf51b1d6d:/# 」も「$」で記載していきます。
+```
+$ apt update
+$ apt install -y qemu-user-static
+$ ls /usr/bin/qe*
+/usr/bin/qemu-aarch64-static       /usr/bin/qemu-or1k-static
+/usr/bin/qemu-aarch64_be-static    /usr/bin/qemu-ppc-static 
+/usr/bin/qemu-alpha-static         /usr/bin/qemu-ppc64-static
+/usr/bin/qemu-arm-static           /usr/bin/qemu-ppc64abi32-static
+/usr/bin/qemu-armeb-static         /usr/bin/qemu-ppc64le-static
+/usr/bin/qemu-cris-static          /usr/bin/qemu-riscv32-static
+/usr/bin/qemu-hppa-static          /usr/bin/qemu-riscv64-static
+/usr/bin/qemu-i386-static          /usr/bin/qemu-s390x-static
+/usr/bin/qemu-m68k-static          /usr/bin/qemu-sh4-static
+/usr/bin/qemu-microblaze-static    /usr/bin/qemu-sh4eb-static
+/usr/bin/qemu-microblazeel-static  /usr/bin/qemu-sparc-static
+/usr/bin/qemu-mips-static          /usr/bin/qemu-sparc32plus-static
+/usr/bin/qemu-mips64-static        /usr/bin/qemu-sparc64-static
+/usr/bin/qemu-mips64el-static      /usr/bin/qemu-tilegx-static
+/usr/bin/qemu-mipsel-static        /usr/bin/qemu-x86_64-static
+/usr/bin/qemu-mipsn32-static       /usr/bin/qemu-xtensa-static
+/usr/bin/qemu-mipsn32el-static     /usr/bin/qemu-xtensaeb-static
+/usr/bin/qemu-nios2-static
+```
+インストールしたqemu-user-staticの中身が見えています。この中のqemu-arm-staticを引き抜いて、使っていくことになります。
+ここで一旦Dockerコンテナ側のコンソールから抜けます。こんなイメージです。＠以下は番号が異なります。
+```
+root@a67cf51b1d6d:/#  exit
+C:\Windows>
+```
+このままVSC上で作業を続けます。
+```
+$ docker ps -al
+CONTAINER ID   IMAGE          COMMAND       CREATED          STATUS              PORTS     NAMES
+a67cf51b1d6d   ubuntu:20.04   "/bin/bash"   18 minutes ago   Up About a minute             ubuntu
+```
+ここでコンテナのIDがわかるので（IDは適宜変更してください。）
+```
+docker cp a67cf51b1d6d:/usr/bin/qemu-arm-static C:\Users\Username\Downloads\qemu-arm-static
+```
+これでWindows10の C:/Users/username/Downloadsにqemu-arm-staticがコピーされています。
+コピーが終わったら、今利用したDockerコンテナは削除してOKです。
 
-
-## Powershell
 ## Windows10
+C:\Users\Username\Downloads\qemu-arm-static を \\wsl$\Ubuntu-20.04\home\ryotaro へコピーしてください。\は￥(←全角で書いてます)のことです。
+
 ## WSL2 ubuntu:20.04
+
+
+
 ## VSC
 ## VSC
 ## WSL2 ubuntu:20.04
