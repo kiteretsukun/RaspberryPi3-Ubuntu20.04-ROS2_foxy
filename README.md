@@ -303,16 +303,7 @@ Commands:
 
   Call `ros2 <command> -h` for more detailed usage.
 ```
-# RaspberryPi のmicroSDカードの情報を取り出してイメージファイルを作る
-ここではRaspberryPiにインストールしてきた、Ubuntu20.04+デバイスドライバ+ROS2 foxyという状態を取り出してイメージファイルにします。これはRaspberryPiのバックアップの手法にもなります。注意点はSDカードの容量丸ごとコピーすることになるので、ファイルが大きくなります。また、SDカードにエラーが出てそのセクタが禁止になると容量が異なってインストールできなくなるそうです。バックアップファイルを小さく作る方法があるので、バックアップを作りたいときは別途調べてみてください。今は、短期間でセクタエラーが出ないもの、として進めます。<br><br>
 
-イメージファイル作成方法(taneyatsさんBlog):https://raspi.taneyats.com/entry/backup-sdcard<br>
-Raspberry Piを極限まで無駄なくバックアップする方法(DevelopersIO):https://dev.classmethod.jp/articles/raspberry-pi-dump-and-restore/<br><br>
-
-ここで作ったイメージファイルはWSL2側のフォルダ(\\wsl$\Ubuntu-20.04\home\以下)にコピーしておきます。(場所がわかるならどこでも良いですが。後々使うので場所は把握しておいてください)<br><br>
-私の場合は、<br>
-\\wsl$\Ubuntu-20.04\home\raspi-ubuntu-20.04.tar<br>
-と置きました。この形で後々利用していきます。
 
 # RaspimouseをROS2で動かすためにraspimouse2パッケージをビルドする
 RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ここではWindow10でビルドできるようにかなり具体的に記載します。<br>
@@ -413,19 +404,29 @@ docker cp a67cf51b1d6d:/usr/bin/qemu-arm-static C:\Users\Username\Downloads\qemu
 コピーが終わったら、今利用したDockerコンテナは削除してOKです。
 
 ## Windows10
-C:\Users\Username\Downloads\qemu-arm-static を \\wsl$\Ubuntu-20.04\home\ryotaro へコピーしてください。
+C:\Users\Username\Downloads\qemu-arm-static を \\wsl$\Ubuntu-20.04\home\Username へコピーしてください。
 
 ## WSL2 ubuntu:20.04
-まず、ホームディレクトリへ移動して確認します。その後、qemu-arm-staticを
+ここではqemu-arm-staticをWSL2上でマウントしてあるUbuntuイメージへコピーして、tarファイルにまとめてイメージを保存します。<br><br>
+
+まず、ホームディレクトリへ移動して確認します。その後、qemu-arm-staticをWSL2上でマウントしてあるUbuntuイメージへコピーします。さらにqemu-arm-staticを実行ファイルに変更します。
 ```
 $ cd
 $ pwd
 $ /home/Username
+$ ls
+qemu-arm-static
+$ sudo cp qemu-arm-static /mnt/usr/bin
+$ ls -l /mnt/usr/bin/qemu-arm-static
+$ sudo chmod 755 /mnt/usr/bin/qemu-arm-static
 ```
-
-
+qemu-arm-staticがコピーしてあるUbuntuイメージを、tarファイルにまとめてイメージを保存します。オーナーも変更します。
 ```
+$ cd /mnt
+$ sudo /home/raspi-ubuntu-20.04.tar .
+$ sudo chown Username:Username raspi-ubuntu-20.04.tar
 ```
+Username の部分はご自身のID(Windows10)です。
 
 ## VSC
 ## VSC
@@ -435,4 +436,11 @@ $ /home/Username
 ## Raspimouseで動作確認
 
 # Raspimouseのネットワーク(特にWifi)設定
+
+# RaspberryPi のmicroSDカードの情報を取り出してイメージファイルを作る
+RaspberryPiのバックアップの手法も記載しておきます。クリーンな状態をバックアップしておくと、すぐに復旧できます。注意点はSDカードの容量丸ごとコピーすることになるので、ファイルが大きくなります。また、SDカードにエラーが出てそのセクタが禁止になると容量が異なってインストールできなくなるそうです。バックアップファイルを小さく作る方法があるので、そちらも読んでみてください。
+
+イメージファイル作成方法(taneyatsさんBlog):https://raspi.taneyats.com/entry/backup-sdcard<br>
+Raspberry Piを極限まで無駄なくバックアップする方法(DevelopersIO):https://dev.classmethod.jp/articles/raspberry-pi-dump-and-restore/<br><br>
+
 
