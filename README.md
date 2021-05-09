@@ -311,7 +311,7 @@ Raspberry Piを極限まで無駄なくバックアップする方法(Developers
 
 ここで作ったイメージファイルはWSL2の/homeにコピーしておきます。(場所がわかるならどこでも良いですが。後々使うので場所は把握しておいてください)<br><br>
 私の場合は、<br>
-/home/raspi-ubuntu-20.04.tar<br>
+\\wsl$\Ubuntu-20.04\home\raspi-ubuntu-20.04.tar<br>
 と置きました。この形で後々利用していきます。
 
 # RaspimouseをROS2で動かすためにraspimouse2パッケージをビルドする
