@@ -71,6 +71,7 @@ $ tar xvf rsp.tar
   - Powershell
   - Etcher(https://www.balena.io/etcher/) : microSDにUbuntuイメージを書き込むソフト
   - WinSCP(FTPツール) : https://ja.osdn.net/projects/winscp/
+  - Win32 Disk Imager : https://sourceforge.net/projects/win32diskimager/
 
 # RapsberryPi3 に Ubuntu 20.04 をインストールする
 Ubuntu.comからRaspberryPiのArm64bitに対応したイメージがダウンロードできるので、ダウンロードしてください。<br>
@@ -123,14 +124,14 @@ Are you sure you want to conotinue connecting (yes/no)? yes
 として、Enterを押してください。<br>
 これでWindows10からSSH接続できます。<br><br>
 
-Windows10からはPowershellでアクセスします。Usernameの部分はご自身の環境に読み替えてください。
+Windows10からはPowershellでアクセスします。Usernameの部分はご自身の環境に読み替えてください。(\は￥(←全角で書いてます)のことです。)
 ```
 PS C:\Users\Username>
 ```
 SSH接続するには
 ```
-PS C:\Users\Username>ssh ubuntu@192.168.1.9
-ubuntu@192.168.1.9's password:yourpassword
+PS C:\Users\Username> ssh ubuntu@192.168.1.9
+ubuntu@192.168.1.9's password: yourpassword
 (略)
 ubuntu@ubuntu:~$
 ```
@@ -302,6 +303,16 @@ Commands:
 
   Call `ros2 <command> -h` for more detailed usage.
 ```
+# RaspberryPi のmicroSDカードの情報を取り出してイメージファイルを作る
+ここではRaspberryPiにインストールしてきた、Ubuntu20.04+デバイスドライバ+ROS2 foxyという状態を取り出してイメージファイルにします。これはRaspberryPiのバックアップの手法にもなります。注意点はSDカードの容量丸ごとコピーすることになるので、ファイルが大きくなります。また、SDカードにエラーが出てそのセクタが禁止になると容量が異なってインストールできなくなるそうです。バックアップファイルを小さく作る方法があるので、バックアップを作りたいときは別途調べてみてください。今は、短期間でセクタエラーが出ないもの、として進めます。
+　イメージファイル作成方法(taneyatsさんBlog) : https://raspi.taneyats.com/entry/backup-sdcard
+　Raspberry Piを極限まで無駄なくバックアップする方法(DevelopersIO) :　https://dev.classmethod.jp/articles/raspberry-pi-dump-and-restore/
+<br>
+ここで作ったイメージファイルはWSL2の/homeにコピーしておきます。(場所がわかるならどこでも良いですが。後々使うので場所は把握しておいてください)<br>
+私の場合は、<br>
+/home/raspi-ubuntu-20.04.tar<br>
+と置きました。この形で後々利用していきます。
+
 # RaspimouseをROS2で動かすためにraspimouse2パッケージをビルドする
 RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ここではWindow10でビルドできるようにかなり具体的に記載します。<br>
 
@@ -357,7 +368,7 @@ bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sb
 $ docker run -it -v C:/Users/Username/Downloads:/img --name ubuntu ubuntu:20.04
 root@a67cf51b1d6d:/# 
 ```
-ここでDockerコンテナ側のコンソールに切り替わります。「root@a67cf51b1d6d:/# 」も「$」で記載していきます。
+ここでDockerコンテナ側のコンソールに切り替わります。「root@a67cf51b1d6d:/# 」も「$」で記載していきます。@以下の数字はそれぞれ異なります。
 ```
 $ apt update
 $ apt install -y qemu-user-static
@@ -401,11 +412,19 @@ docker cp a67cf51b1d6d:/usr/bin/qemu-arm-static C:\Users\Username\Downloads\qemu
 コピーが終わったら、今利用したDockerコンテナは削除してOKです。
 
 ## Windows10
-C:\Users\Username\Downloads\qemu-arm-static を \\wsl$\Ubuntu-20.04\home\ryotaro へコピーしてください。\は￥(←全角で書いてます)のことです。
+C:\Users\Username\Downloads\qemu-arm-static を \\wsl$\Ubuntu-20.04\home\ryotaro へコピーしてください。
 
 ## WSL2 ubuntu:20.04
+まず、ホームディレクトリへ移動して確認します。その後、qemu-arm-staticを
+```
+$ cd
+$ pwd
+$ /home/Username
+```
 
 
+```
+```
 
 ## VSC
 ## VSC
