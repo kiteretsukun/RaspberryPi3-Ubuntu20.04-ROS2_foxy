@@ -342,8 +342,8 @@ sudo fdisk -l /dev/loop0を行うことで、Linuxパーティションが/dev/l
 ```
 $ sudo mount /dev/loop0p2 /mnt
 ```
-後で/dev/loop0p2へqemu-user-staticというモジュールの一部をコピーするために、先にWSL2から/dev/loop0p2をマウントしておく。<br>
-ちなみに、マウントした先を覗いてみると
+後で/dev/loop0p2へqemu-user-staticというモジュールの一部をコピーするために、先にWSL2から/dev/loop0p2をマウントしておきます。<br>
+ちなみに、マウントした先を覗いてみると...
 ```
 $ ls /mnt
 bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var
