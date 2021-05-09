@@ -1,7 +1,7 @@
 # Raspimouse : RapsberryPi3 + Ubuntu 20.04 + ROS2 foxy
 これはRaspimouseをRapsberryPi3 + Ubuntu 20.04 + ROS2 foxyで動かすための手順です。<br>
 基本的にはRT-Shopさんの下記参考URLの1番と2番の手順をなぞれば良いのですが、ROS2のサンプルであるraspimouse2のソースをRapsberryPi3でビルドするとRaspimouseパッケージが25%で止まってしまう現象があります。<br>
-この現象を回避する方法をtshellさんが記載してくれていたのですが、おそらくホストPCもUbuntuだと思われましたので、Windows10のDockerを使ってインストールする手順を記載します。<br>
+この現象を回避する方法をtshellさんが記載してくれているのですが、ここではその手順を参考にしつつWindows10のDockerを使ってインストールする手順を記載します。<br>
 初心者にもわかるようにUbuntu20.04のインストール方法から順番に記載します。ただし、Linuxに由来するコマンドや知識はご自身で補完してください。
 
 ![IMG_0723](https://user-images.githubusercontent.com/34445043/117532437-7ef08280-b022-11eb-8467-5362277e8733.jpg)
@@ -313,20 +313,42 @@ raspimouse2のビルドの仕方は、以下の通り。
 5. ビルドされたものをRaspimouseへ移植する。
 
 ## WSL2 ubuntu:20.04
-RaspberryPiで動かすUbuntuのイメージファイル(ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xz)は、Windows10のダウンロードフォルダにあるものとします。<br>
+RaspberryPiで動かすUbuntuのイメージファイル(ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xzを展開して.imgにしておいてください。)は、Windows10のダウンロードフォルダにあるものとします。<br>
 C:/Users/username/Downloads<br>
 そのうえで、WSL2のUbuntu 20.04を立ち上げて以下を実行します。
 ```
 $ cd
-$ sudo losetup -fP /mnt/c/Users/Ryotaro/Downloads/ubuntu-20.04.2-preinstalled-server-arm64+raspi.img
+$ sudo losetup -fP /mnt/c/Users/Username/Downloads/ubuntu-20.04.2-preinstalled-server-arm64+raspi.img
 $ mesg | grep loop
-$ sudo fdisk -l /dev/loop2
-$ mount /dev/loop2p2 /mnt
+    0.206070] Calibrating delay loop (skipped), value calculated using timer frequency.. 6815.99 BogoMIPS (lpj=34079990)
+[    0.361366] loop: module loaded
+[  132.096953]  loop0: p1 p2
 ```
-mesg | grep loop　でループバックデバイスがどこに作られたかわかります。私の環境では/dev/loop2でした。<br>
-sudo fdisk -l /dev/loop2を行うことで、Linuxパーティションが/dev/loop20p2ということがわかります。
+mesg | grep loop　でループバックデバイスがどこに作られたかわかります。私の環境では/dev/loop0でした。<br>
+```
+$ sudo fdisk -l /dev/loop0
+Disk /dev/loop0: 3.4 GiB, 3259499520 bytes, 6366210 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x4ec8ea53
+
+Device       Boot  Start     End Sectors  Size Id Type
+/dev/loop0p1 *      2048  526335  524288  256M  c W95 FAT32 (LBA)
+/dev/loop0p2      526336 6366175 5839840  2.8G 83 Linux
+```
+sudo fdisk -l /dev/loop0を行うことで、Linuxパーティションが/dev/loop0p2ということがわかります。この情報を次で使います。
 
 ## VSC (Visual Studio Code)
+次はARM64用のUbuntuイメージをx86でも動くようにする改造をします。WSL2でやっても良いのですが、この作業は一度行うだけなのでWSL2を汚すよりは、Dockerで作業してコンテナを捨てしまう方が、すっきりと作業が出来ます。なので、Dockerコンテナを立ち上げていきます。<br>
+前提条件としては、Windows10のダウンロードフォルダにUbuntuイメージが展開されている状態です。
+```
+$ docker run -it -v C:/Users/Username/Downloads:/img --name ubuntu ubuntu:20.04
+$ mount /dev/loop0p2 /mnt
+```
+
+
 ## Powershell
 ## Windows10
 ## WSL2 ubuntu:20.04
