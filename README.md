@@ -492,7 +492,8 @@ $ docker build --rm -t raspi-ubuntu-ros2:foxy .
 $ docker run --rm -it raspi-ubuntu-ros2:foxy /bin/bash
 root@68eea23010f6:/#
 ```
-rt-shopさんの記事(https://rt-net.jp/mobility/archives/13190)にdemo_nodes_cppというサンプルパッケージでのテストが記載されているのですが、これは上記Dockerfileで「ros-foxy-ros-base」ではなくて「ros-foxy-ros-desktop」をインストールするように指示しないと使えないので注意してください。desktopを入れると余計に時間がかかるので、余裕があればチャレンジしていただいても良いかと思います。<br>
+rt-shopさんの記事にdemo_nodes_cppというサンプルパッケージでのテストが記載されているのですが、これは上記Dockerfileで「ros-foxy-ros-base」ではなくて「ros-foxy-ros-desktop」をインストールするように指示しないと使えないので注意してください。desktopを入れると余計に時間がかかるので、余裕があればチャレンジしていただいても良いかと思います。<br><br>
+rt-shopさんの記事 : https://rt-net.jp/mobility/archives/13190<br><br>
 ROS2がインストールされたか反応を見るには先ほどと同じくヘルプを呼び出すと当たりがつくと思います。。ヘルプが表示されればインストールされています（と思います）。
 ```
 root@68eea23010f6:/# source /opt/ros/foxy/setup.bash
