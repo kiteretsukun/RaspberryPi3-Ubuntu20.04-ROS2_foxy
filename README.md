@@ -658,10 +658,3 @@ $ sudo netplan apply
 再起動は不要です。これで無線LANも有線LANも固定IPで運用が可能になります。
 
 
-# RaspberryPi のmicroSDカードの情報を取り出してイメージファイルを作る
-RaspberryPiのバックアップの手法も記載しておきます。クリーンな状態をバックアップしておくと、すぐに復旧できます。注意点はSDカードの容量丸ごとコピーすることになるので、ファイルが大きくなります。また、SDカードにエラーが出てそのセクタが禁止になると容量が異なってインストールできなくなるそうです。バックアップファイルを小さく作る方法があるので、そちらも読んでみてください。
-
-イメージファイル作成方法(taneyatsさんBlog):https://raspi.taneyats.com/entry/backup-sdcard<br>
-Raspberry Piを極限まで無駄なくバックアップする方法(DevelopersIO):https://dev.classmethod.jp/articles/raspberry-pi-dump-and-restore/<br><br>
-
-
