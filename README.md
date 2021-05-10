@@ -56,6 +56,7 @@ $ tar xvf rsp.tar
 * RaspberryPi
   - Raspiemouseのバージョンに合わせて、準備してください。V2の場合はRaspberryPi3、V3の場合はRaspberryPi4。
   - microSD : 16GB 以上が良いと思います。
+  - 最後に無線LAN設定しますが、最初は有線LANで接続しておくと無難です。あと、キーボードとHNMIでモニタに接続しておいてください。
 * Linux for RaspberryPi3
   - ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xz
   - https://ubuntu.com/download/raspberry-pi
@@ -463,6 +464,7 @@ $ pwd
 ```
 このフォルダはWindows10から見ると、\\wsl$\Ubuntu-20.04\home\Username/docker-raspi として見えます。
 
+
 ## VSC
 先に立ち上げてあるARM64タイプのUbuntuコンテナを使い、WSL2側のフォルダをマウントしつつ、ROS2がインストールされた、もう一つのDockerコンテナを立ち上げます。この発想は素晴らしいです。<br>
 ここではどこでファイルを作るかをイメージできるようにviで作っていますが、Windows10のテキストエディタで作ってFTPで送っても良いです。
@@ -504,17 +506,114 @@ usage: ros2 [-h] Call `ros2 <command> -h` for more detailed usage. ...
 ```
 root@68eea23010f6:/# exit
 ```
-ここのコンテナの起動方法がトリッキーです。\wsl$\Ubuntu-20.04\home\Username\docker-raspi\ros2_wsフォルダをコンテナの/homeにマウントさせてコンテナを起動する
+## WSL2 ubuntu:20.04
+raspimouse2のビルドに向けて、ここのコンテナの起動方法がトリッキーです。\wsl$\Ubuntu-20.04\home\Username\docker-raspi\ros2_wsフォルダをコンテナの/homeにマウントさせてコンテナを起動します。そのため、WSL2側で準備します。
+```
+$ cd
+$ cd docker-raspi
+$ mkdir -p ros2_ws/src
+$ cd ros2_ws/src
+$ git clone https://github.com/rt-net/raspimouse2.git
+```
+## VSC
+トリッキーなコンテナを起動し、raspimouse2をビルドします。
+```
+$ docker run --rm -it -v /home/Username/docker-raspi/ros2_ws:/home/ros2_ws raspi-ubuntu-ros2:foxy /bin/bash
+$ source /opt/ros/foxy/setup.bash
+$ cd /home
+$ colcon build
+Starting >>> raspimouse_msgs
+[Processing: raspimouse_msgs]                             
+[Processing: raspimouse_msgs]                                      
+Finished <<< raspimouse_msgs [1min 8s]                             
+Starting >>> raspimouse
+[Processing: raspimouse]                                  
+[Processing: raspimouse]                                     
+[Processing: raspimouse]                                       
+Finished <<< raspimouse [1min 55s]                             
+                          
+Summary: 2 packages finished [3min 4s]
+```
+RaspberryPiではビルド出来なかったraspimouse2がビルド出来ました！ビルドしたファイルは「\wsl$\Ubuntu-20.04\home\Username\docker-raspi\ros2_ws」フォルダに出来ています。それはトリッキーなコンテナの立ち上げ方にあります。コンテナを立ち上げる際に、WSL2の「/home/Username/docker-raspi/ros2_ws」をコンテナ側の「/home/ros2_ws」フォルダとしてマウントした状態で立ち上げているからです。<br>
+ビルド前での後でも良いので下記の通りチェックしていただくとわかります。下記の例はビルド後です。
+```
+$ ls /home/ros2_ws
+build  install  log  src
+```
+新しいコンテナではホームディレクトリにフォルダを作っていないのにフォルダがあって、さらにファイルがあります。srcの中を見るとgit cloneしたraspimouse2があることもわかります。
 
 ## WSL2 ubuntu:20.04
-
-
+あとは、ビルドしたros2_wsフォルダの中身をRasberryPiへ移せばよいのですが、さらにもう一工夫が必要です。シンボリックリンクがFTPでコピーできなかったので、tarファイルに固めます。FTPでのコピーで問題なければ、tar化は不要です。
+```
+$ cd /home/docker-raspi/ros2_ws
+$ sudo tar cvf rsp.tar build install log src
+```
 
 ## Windows10
+rsp.tarをFTPでコピーします。コピー先はRaspimouseの/home/ubuntu/ros2_wsになります。場所が重要なので、同じ場所にコピーしてください。場所が異なるとエラーで動きません。
+
 ## Raspimouse
+rsp.tarを展開します。
+```
+$ cd /home/ubuntu/ros2_ws
+$ tar xvf rsp.tar
+$ ls -l
+drwxr-xr-x 4 root   root       4096 May  8 03:43 build
+drwxr-xr-x 4 root   root       4096 May  8 03:44 install
+drwxr-xr-x 3 root   root       4096 May  8 03:42 log
+-rw-rw-r-- 1 ubuntu ubuntu 29399040 May  8 03:47 rsp.tar
+drwxr-xr-x 3 ubuntu ubuntu     4096 May  8 03:41 src
+```
+以上で、RaspberryPi3を搭載するRaspimouseへUbuntu20.04+ROS2+raspimouse2をインストール出来ました。
+
 ## Raspimouseで動作確認
+こちらはrt-shopさんの記事の手順のままです。https://github.com/rt-net/raspimouse2<br>
+Raspimouseはステッピングモーターが下に当たらないように浮かしておいてください。<br>
+ターミナルを2つ使いますので、Powershellの画面を2つ開いておいてください。<br><br>
+
+Terminal 1
+```
+$ source /opt/ros/foxy/setup.bash
+$ source ~/ros2_ws/install/setup.bash
+$ ros2 run raspimouse raspimouse
+```
+ここでカーソルが戻ってこなくなります。<br>
+
+Terminal 2
+```
+$ source ~/ros2_ws/install/setup.bash
+$ ros2 lifecycle set raspimouse configure
+Transitioning successful
+```
+Set buzzer frequency(Tesminal 2)<br>
+コマンドを送って、1秒ほど遅れてブザーがなります。
+```
+$ ros2 topic pub -1 /buzzer std_msgs/msg/Int16 '{data: 1000}'
+$ ros2 topic pub -1 /buzzer std_msgs/msg/Int16 '{data: 0}'
+```
+Set rotate motors(Terminal 2)<br>
+コマンドを送って、こちらも少し遅れてダイオードが赤く点滅し、さらにコマンドを送るとステッピングモーターが回り始めます。
+```
+$ ros2 lifecycle set raspimouse activate
+$ ros2 service call /motor_power std_srvs/SetBool '{data: true}'
+$ ros2 topic pub -1 /cmd_vel geometry_msgs/Twist '{linear: {x: 0.05, y: 0, z: 0}, angular: {x: 0, y: 0, z: 0.05}}'
+$ ros2 lifecycle set raspimouse deactivate
+```
+終了するには、<br>
+Terminal 2
+```
+$ exit
+```
+Terminal 1は「ctrl + c」を押してください。
 
 # Raspimouseのネットワーク(特にWifi)設定
+ネットワーク設定はpapandaさんのブログを参考にしました。
+papanndaさんのブログ : https://papanda925.com/?p=698<br><br>
+
+作業はRaspimouseに搭載しているRaspberryPiで行います。<br>
+
+
+
 
 # RaspberryPi のmicroSDカードの情報を取り出してイメージファイルを作る
 RaspberryPiのバックアップの手法も記載しておきます。クリーンな状態をバックアップしておくと、すぐに復旧できます。注意点はSDカードの容量丸ごとコピーすることになるので、ファイルが大きくなります。また、SDカードにエラーが出てそのセクタが禁止になると容量が異なってインストールできなくなるそうです。バックアップファイルを小さく作る方法があるので、そちらも読んでみてください。
