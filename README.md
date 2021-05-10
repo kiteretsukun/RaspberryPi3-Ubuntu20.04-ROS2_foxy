@@ -67,7 +67,7 @@ $ tar xvf rsp.tar
   - version : 20H2
   - WSL2 : Ubuntu 20.04
   - Docker Desktop
-  - Visual Studio Code(Docker extentionをインストールしておくこと)
+  - Visual Studio Code(Docker extentionをインストールしておくこと。Powershellがターミナルとして立ち上げられるように準備すること。)
   - Powershell
   - Etcher(https://www.balena.io/etcher/) : microSDにUbuntuイメージを書き込むソフト
   - WinSCP(FTPツール) : https://ja.osdn.net/projects/winscp/
@@ -145,7 +145,7 @@ $ sudo apt upgrade
 ```
 sudo は管理者権限で実行するためのコマンドです。パスワードを聞かれたらログインした際のubuntuユーザーのパスワードを記入すればOKです。
 
-# デバイスドライバーのインストール
+# デバイスドライバーのインストール(RapsberryPi3 Ubuntu20.04)
 Ubuntuが立ち上がったRaspberryPiで作業します。<br>
 デバイスドライバのソースファイルをGitHubからクローンして、クローン時にできたディレクトリを移動します。
 ```
@@ -255,7 +255,7 @@ $ sudo crontab crontab.conf
 ```
 これで、再起動すると自動でデバイスドライバが読み込まれ、ピッという音が鳴り、光センサが一度光ります。その後ログインできるようになります。
 
-# ROS2 foxyのインストール
+# ROS2 foxyのインストール(RapsberryPi3 Ubuntu20.04)
 ROS公式HPに記載があります。<br>
 URL : https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html<br>
 ROS2のパッケージはDesktopとBaseを選べます。ここではbaseを選びます。上記URLに「Try some examples」という項目があるのですが、これをやるにはDesktopを選ばないとできません。<br>
@@ -271,7 +271,7 @@ $ sudo apt install python3-colcon-common-extensions
 $ sudo apt install -y python3-pip
 $ pip3 install -U argcomplete
 ```
-ROS2がインストールされたか反応を見るにはヘルプを呼び出します。ヘルプが表示されればインストールされています（と思います）。
+ROS2がインストールされたか反応を見るにはヘルプを呼び出します。ヘルプが表示されればインストールされています（と思います）。1行目はROS2を動かすために必要なコマンドです。
 ```
 $ source /opt/ros/foxy/setup.bash
 $ ros2 --help
@@ -317,7 +317,7 @@ raspimouse2のビルドの仕方は、以下の通り。
 
 ## WSL2 ubuntu:20.04
 RaspberryPiで動かすUbuntuのイメージファイル(ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xzを展開して.imgにしておいてください。)は、Windows10のダウンロードフォルダにあるものとします。<br>
-C:/Users/username/Downloads<br>
+imgファイルの保管先 : C:/Users/username/Downloads<br>
 そのうえで、WSL2のUbuntu 20.04を立ち上げて以下を実行します。
 ```
 $ cd
@@ -351,20 +351,20 @@ $ sudo mount /dev/loop0p2 /mnt
 $ ls /mnt
 bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var
 ```
-これはUbuntuのイメージファイルの中身が見えています。イメージファイルをマウントしたので、このようになります。
+Ubuntuのイメージファイルの中身が見えています。イメージファイルをマウントしたので、このようになります。
 
 ## VSC (Visual Studio Code)＋Docker
-次はARM64用のUbuntuイメージをx86でも動くようにする改造をします。WSL2でやっても良いのですが、この作業は一度行うだけなのでWSL2を汚すよりは、Dockerで作業してコンテナを捨てしまう方が、すっきりと作業が出来ます。なので、Dockerコンテナを立ち上げていきます。<br>
-前提条件としては、Windows10のダウンロードフォルダにUbuntuイメージが展開されている状態です。
+次はARM64用のUbuntuイメージをx86でも動くようにする改造をします。TerminalとしてPowershellが動かせるように準備してください。WSL2でやっても良いのですが、この作業は一度行うだけなのでWSL2を汚すよりは、Dockerで作業してコンテナを捨てしまう方が、すっきりと作業が出来ます。なので、Dockerコンテナを立ち上げていきます。<br>
+前提条件としては、Windows10のダウンロードフォルダにUbuntuイメージが展開されている状態です。@以下の数字はそれぞれ異なります。「$」が「root@a67cf51b1d6d:/#」に切り替わっていますが、これはDockerコンテナのコンソールを呼び出している状態を示しています。
 ```
 $ docker run -it -v C:/Users/Username/Downloads:/img --name ubuntu ubuntu:20.04
 root@a67cf51b1d6d:/# 
 ```
-ここでDockerコンテナ側のコンソールに切り替わります。「root@a67cf51b1d6d:/# 」も「$」で記載していきます。@以下の数字はそれぞれ異なります。
+ここでDockerコンテナ側のコンソールに切り替わります。
 ```
-$ apt update
-$ apt install -y qemu-user-static
-$ ls /usr/bin/qe*
+root@a67cf51b1d6d:/# apt update
+root@a67cf51b1d6d:/# apt install -y qemu-user-static
+root@a67cf51b1d6d:/# ls /usr/bin/qe*
 /usr/bin/qemu-aarch64-static       /usr/bin/qemu-or1k-static
 /usr/bin/qemu-aarch64_be-static    /usr/bin/qemu-ppc-static 
 /usr/bin/qemu-alpha-static         /usr/bin/qemu-ppc64-static
@@ -385,7 +385,7 @@ $ ls /usr/bin/qe*
 /usr/bin/qemu-nios2-static
 ```
 インストールしたqemu-user-staticの中身が見えています。この中のqemu-arm-staticを引き抜いて、使っていくことになります。
-ここで一旦Dockerコンテナ側のコンソールから抜けます。こんなイメージです。＠以下は番号が異なります。
+ここで一旦Dockerコンテナ側のコンソールから抜けます。こんなイメージです。
 ```
 root@a67cf51b1d6d:/#  exit
 C:\Windows>
@@ -409,7 +409,7 @@ C:\Users\Username\Downloads\qemu-arm-static を \\wsl$\Ubuntu-20.04\home\Usernam
 ## WSL2 ubuntu:20.04
 ここではqemu-arm-staticをWSL2上でマウントしてあるUbuntuイメージへコピーして、tarファイルにまとめてイメージを保存します。<br><br>
 
-まず、ホームディレクトリへ移動して確認します。その後、qemu-arm-staticをWSL2上でマウントしてあるUbuntuイメージへコピーします。さらにqemu-arm-staticを実行ファイルに変更します。
+まず、ホームディレクトリへ移動して確認します。その後、qemu-arm-staticをWSL2上でマウントしてあるUbuntuイメージへコピーします。さらにqemu-arm-staticを実行ファイルに変更します(chmod)。
 ```
 $ cd
 $ pwd
@@ -426,11 +426,88 @@ $ cd /mnt
 $ sudo /home/raspi-ubuntu-20.04.tar .
 $ sudo chown Username:Username raspi-ubuntu-20.04.tar
 ```
-Username の部分はご自身のID(Windows10)です。
+Username の部分はご自身のID(WSL2:Windows10)です。tarファイルの名前は自由につけて構いませんが、後続の作業で同じ名称を使う必要があります。。<br>
+このイメージ(raspi-ubuntu-20.04-x86.tar)がArm64用Ubuntuをx86で動かせるように改造したイメージファイルになります。
 
 ## VSC
-## VSC
+raspi-ubuntu-20.04-x86.tarをWindows10のDockerで動かす準備をします。<br>
+VSC側で\\wsl$\Ubuntu-20.04\homeを選んでオープンして、Powershellを準備します。ホームディレクトリにいることを確認して続けます。
+```
+$ pwd
+Path
+----
+Microsoft.PowerShell.Core\FileSystem::\\wsl$\Ubuntu-20.04\home\Username
+$ docker import raspi-ubuntu-20.04.tar raspi-ubuntu:20.04
+```
+ARM64用Ubuntu を立ち上げ、さらに x86 Docker で動いているか確認します。@以降の数字はランダムに変わります。
+```
+$ docker run -it --name raspi-ubuntu raspi-ubuntu:20.04 /bin/bash
+root@68eea23010f6:/# arch
+aarch64
+```
+aarch64と表示されればアーキテクチャはARM64になっており，ARM用のUbuntu 20.04イメージが実行されています。
+もし standard_init_linux.go:211: exec user process caused "exec format error" というエラーが出たら、下記を実行とのことです。私は出ませんでした。
+```
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+```
+立ち上げたDockerコンテナは引き続き使用するのでこのままにします。
+
 ## WSL2 ubuntu:20.04
+次の作業に向けて作業フォルダを準備します。作業フォルダは自由につけてください。
+```
+$ cd
+$ mkdir docker-raspi
+$ cd docker-raspi
+$ pwd
+/home/Username/docker-raspi
+```
+このフォルダはWindows10から見ると、\\wsl$\Ubuntu-20.04\home\Username/docker-raspi として見えます。
+
+## VSC
+先に立ち上げてあるARM64タイプのUbuntuコンテナを使い、WSL2側のフォルダをマウントしつつ、ROS2がインストールされた、もう一つのDockerコンテナを立ち上げます。この発想は素晴らしいです。<br>
+ここではどこでファイルを作るかをイメージできるようにviで作っていますが、Windows10のテキストエディタで作ってFTPで送っても良いです。
+```
+$ pwd
+/home/Username/docker-raspi
+$ sudo vi Dockerfile
+
+ FROM raspi-ubuntu:20.04
+	
+	RUN apt update && apt install -y curl gnupg2 lsb-release
+	RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
+	RUN sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
+	
+	RUN apt update && \
+		apt install -y ros-foxy-ros-base  python3-colcon-common-extensions python3-pip && \
+		pip3 install -U argcomplete
+```
+準備したDockerfileを使ってイメージのビルドをします。
+```
+$ docker build --rm -t raspi-ubuntu-ros2:foxy .
+```
+最後の行のピリオドが必要なので気を付けてください。<br><br>
+
+ビルドしたイメージを使ってコンテナ化して立ち上げてみます。@以降の数字はランダムに変わります。
+```
+$ docker run --rm -it raspi-ubuntu-ros2:foxy /bin/bash
+root@68eea23010f6:/#
+```
+rt-shopさんの記事(https://rt-net.jp/mobility/archives/13190)にdemo_nodes_cppというサンプルパッケージでのテストが記載されているのですが、これは上記Dockerfileで「ros-foxy-ros-base」ではなくて「ros-foxy-ros-desktop」をインストールするように指示しないと使えないので注意してください。desktopを入れると余計に時間がかかるので、余裕があればチャレンジしていただいても良いかと思います。<br>
+ROS2がインストールされたか反応を見るには先ほどと同じくヘルプを呼び出すと当たりがつくと思います。。ヘルプが表示されればインストールされています（と思います）。
+```
+root@68eea23010f6:/# source /opt/ros/foxy/setup.bash
+root@68eea23010f6:/# ros2 --help
+usage: ros2 [-h] Call `ros2 <command> -h` for more detailed usage. ...
+```
+一度コンテナから出ます。
+```
+root@68eea23010f6:/# exit
+```
+
+## WSL2 ubuntu:20.04
+
+
+
 ## Windows10
 ## Raspimouse
 ## Raspimouseで動作確認
