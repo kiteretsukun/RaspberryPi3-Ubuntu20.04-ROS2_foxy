@@ -652,6 +652,7 @@ $ sudo vi 1-cloud-init.yaml
           access-points:
             アクセスポイント:
             password: パスワード
+	    
 $ sudo netplan apply
 ```
 再起動は不要です。これで無線LANも有線LANも固定IPで運用が可能になります。
