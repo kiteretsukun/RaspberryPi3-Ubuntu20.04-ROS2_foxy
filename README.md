@@ -603,7 +603,7 @@ Terminal 2
 ```
 $ exit
 ```
-Terminal 1は「ctrl + c」を押してください。
+Terminal 1は「ctrl + c」を押してください。<br><br>
 
 # Raspimouseのネットワーク(特にWifi)設定
 ネットワーク設定はpapandaさんのブログを参考にしました。
