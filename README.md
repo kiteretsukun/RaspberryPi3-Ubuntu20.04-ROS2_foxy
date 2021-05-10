@@ -577,7 +577,7 @@ $ source /opt/ros/foxy/setup.bash
 $ source ~/ros2_ws/install/setup.bash
 $ ros2 run raspimouse raspimouse
 ```
-ここでカーソルが戻ってこなくなります。<br>
+ここでカーソルが戻ってこなくなります。<br><br>
 
 Terminal 2
 ```
