@@ -599,7 +599,7 @@ $ ros2 service call /motor_power std_srvs/SetBool '{data: true}'
 $ ros2 topic pub -1 /cmd_vel geometry_msgs/Twist '{linear: {x: 0.05, y: 0, z: 0}, angular: {x: 0, y: 0, z: 0.05}}'
 $ ros2 lifecycle set raspimouse deactivate
 ```
-終了するには、<br>
+終了するには、<br><br>
 Terminal 2
 ```
 $ exit
