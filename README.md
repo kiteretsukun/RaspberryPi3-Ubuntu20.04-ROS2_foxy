@@ -607,8 +607,7 @@ Terminal 1は「ctrl + c」を押してください。<br><br>
 
 # Raspimouseのネットワーク(特にWifi)設定
 ネットワーク設定はpapandaさんのブログを参考にしました。
-papanndaさんのブログ : https://papanda925.com/?p=698<br><br>
-
+papanndaさんのブログ : https://papanda925.com/?p=698<br>
 作業はRaspimouseに搭載しているRaspberryPiで行います。<br>
 
 
