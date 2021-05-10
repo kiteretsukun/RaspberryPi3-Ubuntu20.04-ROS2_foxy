@@ -504,6 +504,7 @@ usage: ros2 [-h] Call `ros2 <command> -h` for more detailed usage. ...
 ```
 root@68eea23010f6:/# exit
 ```
+ここのコンテナの起動方法がトリッキーです。\wsl$\Ubuntu-20.04\home\Username\docker-raspi\ros2_wsフォルダをコンテナの/homeにマウントさせてコンテナを起動する
 
 ## WSL2 ubuntu:20.04
 
