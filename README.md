@@ -571,27 +571,26 @@ drwxr-xr-x 3 ubuntu ubuntu     4096 May  8 03:41 src
 Raspimouseはステッピングモーターが下に当たらないように浮かしておいてください。<br>
 ターミナルを2つ使いますので、Powershellの画面を2つ開いておいてください。<br><br>
 
-Terminal 1
+### Terminal 1
 ```
 $ source /opt/ros/foxy/setup.bash
 $ source ~/ros2_ws/install/setup.bash
 $ ros2 run raspimouse raspimouse
 ```
-ここでカーソルが戻ってこなくなります。<br><br>
-
-Terminal 2
+ここでカーソルが戻ってこなくなります。
+### Terminal 2
 ```
 $ source ~/ros2_ws/install/setup.bash
 $ ros2 lifecycle set raspimouse configure
 Transitioning successful
 ```
-Set buzzer frequency(Tesminal 2)<br>
+### Set buzzer frequency(Tesminal 2)
 コマンドを送って、1秒ほど遅れてブザーがなります。
 ```
 $ ros2 topic pub -1 /buzzer std_msgs/msg/Int16 '{data: 1000}'
 $ ros2 topic pub -1 /buzzer std_msgs/msg/Int16 '{data: 0}'
 ```
-Set rotate motors(Terminal 2)<br>
+### Set rotate motors(Terminal 2)
 コマンドを送って、こちらも少し遅れてダイオードが赤く点滅し、さらにコマンドを送るとステッピングモーターが回り始めます。
 ```
 $ ros2 lifecycle set raspimouse activate
