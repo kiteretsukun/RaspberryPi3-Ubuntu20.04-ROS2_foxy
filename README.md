@@ -106,15 +106,26 @@ passwd: password updated successfully
 # Windows10からRasberryPiのUbuntuへSSH接続するための準備
 SSH接続は、暗号化された状態でサーバー間やPC間を通信する方式です。<br>
 Ubuntuが立ち上がったRaspberryPiで作業します。<br>
-まず、RaspberryPiのIPアドレスを調べます。IPアドレスはサンプルです。
+まず、ネットワークアダプタがどのように認識されているか調べます。
+```
+$ ifconfig -a
+eth0: flags=...
+      .........
+lo: flags=...
+      .........
+wlan0: flags=...
+      .........
+```
+私のRaspberryPiでは有線LANアダプタがeth0、無線LANアダプタがwlan0でした。これは皆さんも同じのはず、です。<br>
+有線LANのネットワークアダプタが分かったので、RaspberryPiの有線LANのIPアドレスを調べます。IPアドレスはサンプルです。
 ```
 $ ip addr show eth0
 3: eth0: ...
-   inet 192.168.1.9/24 ...
+   inet 192.168.1.2/24 ...
 ```
 次にSSHの準備です。IPアドレスはご自身のアドレスに読み替えてください。
 ```
-$ ssh ubuntu@192.168.1.9
+$ ssh ubuntu@192.168.1.2
 (略)
 Are you sure you want to conotinue connecting (yes/no)?
 ```
@@ -131,8 +142,8 @@ PS C:\Users\Username>
 ```
 SSH接続するには
 ```
-PS C:\Users\Username> ssh ubuntu@192.168.1.9
-ubuntu@192.168.1.9's password: yourpassword
+PS C:\Users\Username> ssh ubuntu@192.168.1.2
+ubuntu@192.168.1.2's password: yourpassword
 (略)
 ubuntu@ubuntu:~$
 ```
@@ -566,7 +577,7 @@ drwxr-xr-x 3 ubuntu ubuntu     4096 May  8 03:41 src
 ```
 以上で、RaspberryPi3を搭載するRaspimouseへUbuntu20.04+ROS2+raspimouse2をインストール出来ました。
 
-## Raspimouseで動作確認
+# Raspimouseで動作確認
 こちらはrt-shopさんの記事の手順のままです。https://github.com/rt-net/raspimouse2<br>
 Raspimouseはステッピングモーターが下に当たらないように浮かしておいてください。<br>
 ターミナルを2つ使いますので、Powershellの画面を2つ開いておいてください。<br><br>
@@ -609,8 +620,41 @@ Terminal 1は「ctrl + c」を押してください。<br><br>
 ネットワーク設定はpapandaさんのブログを参考にしました。
 papanndaさんのブログ : https://papanda925.com/?p=698<br>
 作業はRaspimouseに搭載しているRaspberryPiで行います。<br>
+## Raspimouse
+/etc/netplan フォルダにネットワーク設定のファイルを置くことで設定が可能になります。<br>
+注意するのは、先にある「50-cloud-init.yaml」は触らないということなので、新しくファイルを作って編集します。<br>
+IPアドレス、wifiのアクセスポイントとパスワードは皆さんの環境に合わせてください。
+```
+$ cd /etc/netplan
+$ ls
+50-cloud-init.yaml
+$ sudo vi 1-cloud-init.yaml
 
-
+ network:
+   version: 2
+   renderer: networkd
+   ethernets:
+     eth0:
+          dhcp4: false
+          dhcp6: false
+          addresses: [192.168.1.2/24]
+          gateway4: 192.168.1.1
+          nameservers:
+          addresses: [192.168.1.1, 8.8.8.8, 8.8.4.4]
+   wifis:
+     wlan0:
+          dhcp4: false
+          dhcp6: false
+          addresses: [192.168.1.3/24]
+          gateway4: 192.168.1.1
+          nameservers:
+          addresses: [192.168.1.1, 8.8.8.8, 8.8.4.4] 
+          access-points:
+            アクセスポイント:
+            password: パスワード
+$ sudo netplan apply
+```
+再起動は不要です。これで無線LANも有線LANも固定IPで運用が可能になります。
 
 
 # RaspberryPi のmicroSDカードの情報を取り出してイメージファイルを作る
