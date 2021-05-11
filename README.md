@@ -558,6 +558,13 @@ Summary: 2 packages finished [3min 4s]
 ```
 RaspberryPiではビルド出来なかったraspimouse2がビルド出来ました！ビルドしたファイルは「\wsl$\Ubuntu-20.04\home\Username\docker-raspi\ros2_ws」フォルダに出来ています。それはトリッキーなコンテナの立ち上げ方にあります。コンテナを立ち上げる際に、WSL2の「/home/Username/docker-raspi/ros2_ws」をコンテナ側の「/home/ros2_ws」フォルダとしてマウントした状態で立ち上げたので、WSL2へファイルが出力されています。<br><br>
 
+ビルド前での後でも良いので下記の通りチェックしていただくとわかります。下記の例はビルド後です。
+```
+$ ls /home/ros2_ws
+build  install  log  src
+```
+新しいコンテナではホームディレクトリにフォルダを作っていないのにフォルダがあって、さらにファイルがあります。srcの中を見るとgit cloneしたraspimouse2があることもわかります。<br><br>
+
 ※コンテナを立ち上げた時にros2_ws以下に何もない、という方は、Powershellを立ち上げて、以下を調べてみてください。
 ```
 $ wsl --list --verbose
@@ -571,13 +578,6 @@ $ wsl --list --verbose
 ```
 $ wsl --terminate Ubuntu-20.04
 ```
-
-ビルド前での後でも良いので下記の通りチェックしていただくとわかります。下記の例はビルド後です。
-```
-$ ls /home/ros2_ws
-build  install  log  src
-```
-新しいコンテナではホームディレクトリにフォルダを作っていないのにフォルダがあって、さらにファイルがあります。srcの中を見るとgit cloneしたraspimouse2があることもわかります。
 
 ## WSL2 ubuntu:20.04
 あとは、ビルドしたros2_wsフォルダの中身をRasberryPiへ移せばよいのですが、さらにもう一工夫が必要です。シンボリックリンクがFTPでコピーできなかったので、tarファイルに固めます。FTPでのコピーで問題なければ、tar化は不要です。
