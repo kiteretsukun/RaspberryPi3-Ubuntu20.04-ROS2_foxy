@@ -233,7 +233,11 @@ exec 2> /tmp/setup.log は /tmp にログを出すためのコマンドです。
 /sbin/insmod rtmouse.ko　は、rtmouse.ko を実行してカーネルにデバイスファイルをねじ込むコマンドです。<br>
 デバイスドライバがすぐに出来ないのでsleep 1で1秒待ちます。<br>
 chmod 666 /dev/rt* はroot以外の権限(今はubuntuユーザーです)でもデバイスファイルが使えるように権限を変更します。
-echo 0 > /dev/rtmotoren0 は安全のためモーターの電源を切るコマンドを送っています。<br>
+echo 0 > /dev/rtmotoren0 は安全のためモーターの電源を切るコマンドを送っています。<br><br>
+setup.bash に実行権をつけておきます。
+```
+sudo chmod 755 setup.bash
+```
 記載した中身の確認は
 ```
 $ cat setup.bash
@@ -265,7 +269,13 @@ $ sudo crontab crontab.conf
      ├setup.bash
      └crontab.conf
 ```
-これで、再起動すると自動でデバイスドライバが読み込まれ、ピッという音が鳴り、光センサが一度光ります。その後ログインできるようになります。
+これで、再起動すると自動でデバイスドライバが読み込まれ、ピッという音が鳴り、光センサが一度光ります。その後ログインできるようになります。<br><br>
+
+※たまにrtmouse.koに実行権がない場合があるようなので、その場合は以下を実施してください。
+```
+$ cd
+$ sudo chmod 755 /home/ubuntu/RaspberryPiMouse/src/drivers/rtmouse.ko
+```
 
 # ROS2 foxyのインストール(RapsberryPi3 Ubuntu20.04)
 ROS公式HPに記載があります。<br>
