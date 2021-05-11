@@ -152,7 +152,7 @@ ubuntu@ubuntu:~$
 # RaspberryPi Ubuntuのソフトアップデート
 おまじないのように下記を実行してください。
 ```
-$ sudo apt uodate
+$ sudo apt update
 $ sudo apt upgrade
 ```
 sudo は管理者権限で実行するためのコマンドです。パスワードを聞かれたらログインした際のubuntuユーザーのパスワードを記入すればOKです。
