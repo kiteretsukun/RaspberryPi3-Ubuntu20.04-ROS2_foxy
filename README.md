@@ -338,6 +338,8 @@ raspimouse2のビルドの仕方は、以下の通り。
 4. 追加で立ち上げたコンテナでraspimouse2をビルドする。
 5. ビルドされたものをRaspimouseへ移植する。
 
+![ビルドイメージ](https://user-images.githubusercontent.com/34445043/117824271-4f9f7700-b2a9-11eb-82f2-25bb4cafc863.JPG)
+
 ## WSL2 ubuntu:20.04
 RaspberryPiで動かすUbuntuのイメージファイル(ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xzを展開して.imgにしておいてください。)は、Windows10のダウンロードフォルダにあるものとします。<br>
 imgファイルの保管先 : C:/Users/username/Downloads<br>
