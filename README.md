@@ -542,7 +542,7 @@ $ git clone https://github.com/rt-net/raspimouse2.git
 ```
 $ docker run --rm -it -v /home/Username/docker-raspi/ros2_ws:/home/ros2_ws raspi-ubuntu-ros2:foxy /bin/bash
 $ source /opt/ros/foxy/setup.bash
-$ cd /home
+$ cd /home/ros2_ws
 $ colcon build
 Starting >>> raspimouse_msgs
 [Processing: raspimouse_msgs]                             
@@ -556,7 +556,22 @@ Finished <<< raspimouse [1min 55s]
                           
 Summary: 2 packages finished [3min 4s]
 ```
-RaspberryPiではビルド出来なかったraspimouse2がビルド出来ました！ビルドしたファイルは「\wsl$\Ubuntu-20.04\home\Username\docker-raspi\ros2_ws」フォルダに出来ています。それはトリッキーなコンテナの立ち上げ方にあります。コンテナを立ち上げる際に、WSL2の「/home/Username/docker-raspi/ros2_ws」をコンテナ側の「/home/ros2_ws」フォルダとしてマウントした状態で立ち上げているからです。<br>
+RaspberryPiではビルド出来なかったraspimouse2がビルド出来ました！ビルドしたファイルは「\wsl$\Ubuntu-20.04\home\Username\docker-raspi\ros2_ws」フォルダに出来ています。それはトリッキーなコンテナの立ち上げ方にあります。コンテナを立ち上げる際に、WSL2の「/home/Username/docker-raspi/ros2_ws」をコンテナ側の「/home/ros2_ws」フォルダとしてマウントした状態で立ち上げたので、WSL2へファイルが出力されています。<br><br>
+
+※コンテナを立ち上げた時にros2_ws以下に何もない、という方は、Powershellを立ち上げて、以下を調べてみてください。
+```
+$ wsl --list --verbose
+  NAME                   STATE           VERSION
+* Ubuntu-20.04           Running         2
+  docker-desktop         Running         2
+  docker-desktop-data    Running         2
+  Ubuntu                 Stopped         2
+```
+ここで上記のようにUbuntu-20.04に※が付いていないとダメのようです。※がついいていない方は以下のコマンドで変更できます。
+```
+$ wsl --terminate Ubuntu-20.04
+```
+
 ビルド前での後でも良いので下記の通りチェックしていただくとわかります。下記の例はビルド後です。
 ```
 $ ls /home/ros2_ws
