@@ -327,6 +327,13 @@ Commands:
   Call `ros2 <command> -h` for more detailed usage.
 ```
 
+Raspimouseを再起動するとROS2のリンクが動かずコマンドが効かないので、ホームディレクトリにある.bashrcの最後に以下を書き込んでおく。
+```
+ubuntu@ubuntu:~$ ls -al
+ubuntu@ubuntu:~$ sudo vi .bashrc
+
+source /opt/ros/foxy/setup.bash
+```
 
 # RaspimouseをROS2で動かすためにraspimouse2パッケージをビルドする
 RaspimouseをROS2で動かすためにGeoffrey Biggsさんが作っているraspimouse2というパッケージがあります。まずはそれを利用させてもらうべく、ビルドを試みます。rt-shopさんのHPに記載された手順でビルドを行うと、2つあるパッケージのうちraspimouseのビルドが25%から進みません。これを回避するためにtshellさんがx86マシンでビルドする方法を記載してくれています。ここではWindow10でビルドできるようにかなり具体的に記載します。<br>
